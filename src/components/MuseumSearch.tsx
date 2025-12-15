@@ -56,8 +56,7 @@ export function MuseumSearch({ museums, filters, onFiltersChange }: MuseumSearch
           <div>
             {filters.citySearchLocation ? (
               <p className="text-sm text-muted-foreground">
-                Showing {filteredAndSortedMuseums.length} museums within {filters.citySearchRadius}{" "}
-                miles of {filters.citySearchLocation.city}
+                Showing {filteredAndSortedMuseums.length} museums
               </p>
             ) : (
               <p className="text-sm text-muted-foreground">
