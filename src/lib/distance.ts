@@ -20,16 +20,3 @@ export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2
 function toRad(degrees: number): number {
   return degrees * (Math.PI / 180);
 }
-
-/**
- * Check if a museum is within the 90-mile exclusion zone
- */
-export function isWithinExclusionZone(
-  museumLat: number,
-  museumLon: number,
-  userLat: number,
-  userLon: number
-): boolean {
-  const distance = calculateDistance(museumLat, museumLon, userLat, userLon);
-  return distance <= 90;
-}

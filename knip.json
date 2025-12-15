@@ -1,0 +1,9 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": ["src/index.ts", "src/frontend.tsx", "build.ts"],
+  "project": ["src/**/*.{ts,tsx}"],
+  "ignore": ["src/index.html", "dist/**", "node_modules/**"],
+  "ignoreDependencies": ["tailwindcss", "tw-animate-css"],
+  "ignoreBinaries": ["tsc"],
+  "ignoreExportsUsedInFile": true
+}
