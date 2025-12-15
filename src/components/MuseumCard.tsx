@@ -65,52 +65,56 @@ export function MuseumCard({ museum, showDistance }: MuseumCardProps) {
   return (
     <div className="bg-card text-card-foreground rounded-lg border p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
       {/* Header */}
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex-1 min-w-0 space-y-2">
+      <div className="space-y-2">
+        {/* Row 1: Name and Distance */}
+        <div className="flex items-start justify-between gap-3">
           <a
             href={museum.website}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-semibold text-lg leading-snug hover:underline cursor-pointer block"
+            className="font-semibold text-lg leading-snug hover:underline cursor-pointer flex-1 min-w-0"
           >
             {museum.name}
           </a>
-          <div className="flex items-center justify-between gap-3">
-            <a
-              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                `${museum.address}, ${museum.city}, ${museum.state} ${museum.zip}`
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-start gap-1.5 text-muted-foreground text-sm hover:text-foreground hover:underline transition-colors cursor-pointer"
-            >
-              <MapPin className="h-3.5 w-3.5 mt-0.5 shrink-0" />
-              <span className="leading-snug">
-                {museum.city}, {museum.state || museum.country}
+          {showDistance && museum.distance !== undefined && (
+            <span className="text-xs font-semibold px-2 py-1 rounded-full bg-muted whitespace-nowrap shrink-0">
+              {museum.distance} mi
+            </span>
+          )}
+        </div>
+
+        {/* Row 2: Location and Badges */}
+        <div className="flex items-center justify-between gap-3">
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+              `${museum.address}, ${museum.city}, ${museum.state} ${museum.zip}`
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-start gap-1.5 text-muted-foreground text-sm hover:text-foreground hover:underline transition-colors cursor-pointer"
+          >
+            <MapPin className="h-3.5 w-3.5 mt-0.5 shrink-0" />
+            <span className="leading-snug">
+              {museum.city}, {museum.state || museum.country}
+            </span>
+          </a>
+
+          {/* Badges */}
+          <div className="flex flex-wrap gap-2 justify-end">
+            {museum.type && (
+              <span
+                className={`inline-flex items-center px-2 py-0.5 text-xs font-semibold rounded-full ${
+                  museum.type === "astc"
+                    ? "bg-indigo-100 dark:bg-indigo-950/50 text-indigo-800 dark:text-indigo-300"
+                    : "bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300"
+                }`}
+              >
+                {museum.type === "astc" ? "ASTC" : "AZA"}
               </span>
-            </a>
-            {/* Badges */}
-            <div className="flex flex-wrap gap-2 justify-end">
-              {museum.type && (
-                <span
-                  className={`inline-flex items-center px-2 py-0.5 text-xs font-semibold rounded-full ${
-                    museum.type === "astc"
-                      ? "bg-indigo-100 dark:bg-indigo-950/50 text-indigo-800 dark:text-indigo-300"
-                      : "bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300"
-                  }`}
-                >
-                  {museum.type === "astc" ? "ASTC" : "AZA"}
-                </span>
-              )}
-              {getDiscountBadge()}
-            </div>
+            )}
+            {getDiscountBadge()}
           </div>
         </div>
-        {showDistance && museum.distance !== undefined && (
-          <span className="text-xs font-semibold px-2 py-1 rounded-full bg-muted whitespace-nowrap shrink-0">
-            {museum.distance} mi
-          </span>
-        )}
       </div>
 
       {/* Admittance Policy */}
