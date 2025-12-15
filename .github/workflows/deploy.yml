@@ -82,4 +82,3 @@ jobs:
 
       - name: Deploy to obermillers.com
         run: rsync -avz --delete dist/* iano@obermillers.com:~/public_html/obermillers/museums/
-
