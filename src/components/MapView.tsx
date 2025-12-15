@@ -119,7 +119,7 @@ export function MapView({ museums, showDistance }: MapViewProps) {
                 <h3 className="font-bold text-base mb-1">{museum.name}</h3>
 
                 <div className="flex items-start gap-1 text-sm text-muted-foreground mb-2">
-                  <MapPin className="h-3 w-3 mt-0.5 flex-shrink-0" />
+                  <MapPin className="h-3 w-3 mt-0.5 shrink-0" />
                   <span className="text-xs">
                     {museum.city}, {museum.state || museum.country}
                   </span>

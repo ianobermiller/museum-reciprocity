@@ -35,8 +35,8 @@ export function App() {
       <header className="sticky top-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <img src={logoSvg} alt="Museum" className="h-6 w-6" />
+            <div className="flex items-start gap-2">
+              <img src={logoSvg} alt="Museum" className="h-6 w-6 mt-0.5" />
               <div>
                 <h1 className="text-xl font-bold">Museum Finder</h1>
                 <p className="text-xs text-muted-foreground">

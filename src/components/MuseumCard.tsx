@@ -88,7 +88,7 @@ export function MuseumCard({ museum, showDistance }: MuseumCardProps) {
           )}
         </div>
         <CardDescription className="flex items-start gap-1">
-          <MapPin className="h-3 w-3 mt-0.5 flex-shrink-0" />
+          <MapPin className="h-3 w-3 mt-0.5 shrink-0" />
           <span className="text-xs">
             {museum.city}, {museum.state || museum.country}
           </span>
