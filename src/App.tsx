@@ -38,9 +38,9 @@ export function App() {
             <div className="flex items-start gap-2">
               <img src={logoSvg} alt="Museum" className="h-6 w-6 mt-0.5" />
               <div>
-                <h1 className="text-xl font-bold">Museum Finder</h1>
+                <h1 className="text-xl font-bold">Museum Reciprocity</h1>
                 <p className="text-xs text-muted-foreground">
-                  {astcCount} ASTC Museums • {azaCount} AZA Institutions
+                  {astcCount} ASTC • {azaCount} AZA
                 </p>
               </div>
             </div>
