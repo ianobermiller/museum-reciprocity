@@ -1,5 +1,5 @@
-import { MapPin } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { MapPin, X } from "lucide-react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -32,33 +32,48 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Debounced search function
-  const performSearch = async (searchText: string) => {
-    if (!searchText.trim() || searchText.length < 2) {
-      setCityMatches([]);
-      setGeocodingError(null);
-      return;
-    }
-
-    setIsGeocoding(true);
-    setGeocodingError(null);
-
-    try {
-      const results = await geocodeCityMultiple(searchText, 5);
-
-      if (results.length === 0) {
-        setGeocodingError("No cities found. Try a different name or format.");
+  const performSearch = useCallback(
+    async (searchText: string) => {
+      if (!searchText.trim() || searchText.length < 2) {
         setCityMatches([]);
-      } else {
-        setCityMatches(results);
         setGeocodingError(null);
+        return;
       }
-    } catch {
-      setGeocodingError("Error finding city. Please try again.");
-      setCityMatches([]);
-    } finally {
-      setIsGeocoding(false);
-    }
-  };
+
+      setIsGeocoding(true);
+      setGeocodingError(null);
+
+      try {
+        const results = await geocodeCityMultiple(searchText, 5);
+
+        if (results.length === 0) {
+          setGeocodingError("No cities found. Try a different name or format.");
+          setCityMatches([]);
+        } else if (results.length === 1) {
+          // Auto-select when there's only one match
+          const result = results[0];
+          if (result) {
+            onFiltersChange({
+              ...filters,
+              citySearchLocation: result,
+            });
+            setCityInput(result.displayName);
+            setCityMatches([]);
+            setGeocodingError(null);
+          }
+        } else {
+          setCityMatches(results);
+          setGeocodingError(null);
+        }
+      } catch {
+        setGeocodingError("Error finding city. Please try again.");
+        setCityMatches([]);
+      } finally {
+        setIsGeocoding(false);
+      }
+    },
+    [filters, onFiltersChange]
+  );
 
   // Effect to trigger search when user types
   useEffect(() => {
@@ -83,7 +98,7 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
         clearTimeout(debounceTimerRef.current);
       }
     };
-  }, [cityInput, filters.citySearchLocation]);
+  }, [cityInput, filters.citySearchLocation, performSearch]);
 
   const handleSelectCity = (result: GeocodingResult) => {
     onFiltersChange({
@@ -117,6 +132,18 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
     }
   };
 
+  const handleClearInput = () => {
+    setCityInput("");
+    setCityMatches([]);
+    setGeocodingError(null);
+    if (filters.citySearchLocation) {
+      onFiltersChange({
+        ...filters,
+        citySearchLocation: undefined,
+      });
+    }
+  };
+
   return (
     <div className="space-y-3">
       <div className="space-y-2">
@@ -128,13 +155,22 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
             value={cityInput}
             onChange={(e) => handleCityInputChange(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="pl-10"
+            className="pl-10 pr-10"
           />
-          {isGeocoding && (
+          {isGeocoding ? (
             <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
               <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
             </div>
-          )}
+          ) : cityInput ? (
+            <button
+              onClick={handleClearInput}
+              className="absolute right-0 top-0 h-full px-3 text-muted-foreground hover:text-foreground transition-colors"
+              title="Clear search"
+              type="button"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          ) : null}
         </div>
         {geocodingError && <p className="text-sm text-destructive">{geocodingError}</p>}
         {cityMatches.length > 0 && (
