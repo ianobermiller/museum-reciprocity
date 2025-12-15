@@ -1,8 +1,8 @@
-import type { UserMembership, SearchFilters } from '@/types/museum';
+import type { UserMembership, SearchFilters } from "@/types/museum";
 
 const STORAGE_KEYS = {
-  USER_MEMBERSHIP: 'museum-finder-user-membership',
-  SEARCH_FILTERS: 'museum-finder-search-filters',
+  USER_MEMBERSHIP: "museum-finder-user-membership",
+  SEARCH_FILTERS: "museum-finder-search-filters",
 } as const;
 
 /**
@@ -16,7 +16,7 @@ export function saveMembership(membership: UserMembership | null): void {
       localStorage.removeItem(STORAGE_KEYS.USER_MEMBERSHIP);
     }
   } catch (error) {
-    console.error('Failed to save membership:', error);
+    console.error("Failed to save membership:", error);
   }
 }
 
@@ -30,7 +30,7 @@ export function loadMembership(): UserMembership | null {
       return JSON.parse(stored) as UserMembership;
     }
   } catch (error) {
-    console.error('Failed to load membership:', error);
+    console.error("Failed to load membership:", error);
   }
   return null;
 }
@@ -42,7 +42,7 @@ export function saveFilters(filters: SearchFilters): void {
   try {
     localStorage.setItem(STORAGE_KEYS.SEARCH_FILTERS, JSON.stringify(filters));
   } catch (error) {
-    console.error('Failed to save filters:', error);
+    console.error("Failed to save filters:", error);
   }
 }
 
@@ -56,7 +56,7 @@ export function loadFilters(): SearchFilters | null {
       return JSON.parse(stored) as SearchFilters;
     }
   } catch (error) {
-    console.error('Failed to load filters:', error);
+    console.error("Failed to load filters:", error);
   }
   return null;
 }
@@ -70,4 +70,3 @@ export function getDefaultFilters(): SearchFilters {
     citySearchRadius: 50,
   };
 }
-

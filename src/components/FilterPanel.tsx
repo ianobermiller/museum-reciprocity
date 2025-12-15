@@ -1,9 +1,20 @@
 import { MapPin } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import type { SearchFilters } from "@/types/museum";
 import { geocodeCityMultiple, type GeocodingResult } from "@/lib/geocoding";
 
@@ -14,11 +25,11 @@ interface FilterPanelProps {
 
 export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
   // Initialize cityInput with the current city location if it exists
-  const [cityInput, setCityInput] = useState(filters.citySearchLocation?.displayName || '');
+  const [cityInput, setCityInput] = useState(filters.citySearchLocation?.displayName || "");
   const [isGeocoding, setIsGeocoding] = useState(false);
   const [geocodingError, setGeocodingError] = useState<string | null>(null);
   const [cityMatches, setCityMatches] = useState<GeocodingResult[]>([]);
-  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Debounced search function
   const performSearch = async (searchText: string) => {
@@ -35,14 +46,14 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
       const results = await geocodeCityMultiple(searchText, 5);
 
       if (results.length === 0) {
-        setGeocodingError('No cities found. Try a different name or format.');
+        setGeocodingError("No cities found. Try a different name or format.");
         setCityMatches([]);
       } else {
         setCityMatches(results);
         setGeocodingError(null);
       }
-    } catch (error) {
-      setGeocodingError('Error finding city. Please try again.');
+    } catch {
+      setGeocodingError("Error finding city. Please try again.");
       setCityMatches([]);
     } finally {
       setIsGeocoding(false);
@@ -101,7 +112,7 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     // Allow user to navigate the dropdown with arrow keys
-    if (e.key === 'Escape') {
+    if (e.key === "Escape") {
       setCityMatches([]);
     }
   };
@@ -125,9 +136,7 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
             </div>
           )}
         </div>
-        {geocodingError && (
-          <p className="text-sm text-destructive">{geocodingError}</p>
-        )}
+        {geocodingError && <p className="text-sm text-destructive">{geocodingError}</p>}
         {cityMatches.length > 0 && (
           <Command className="border rounded-md shadow-md">
             <CommandList>

@@ -12,10 +12,10 @@ export interface Museum {
   proofOfResidenceRequired: boolean;
   latitude: number;
   longitude: number;
-  discountType: 'free' | '50-percent' | 'distance-based' | 'varies';
+  discountType: "free" | "50-percent" | "distance-based" | "varies";
   specialNotes: string;
   distance?: number; // Calculated distance from user's location
-  type?: 'astc' | 'aza'; // Museum type
+  type?: "astc" | "aza"; // Museum type
 }
 
 export interface UserMembership {
@@ -51,5 +51,4 @@ export interface AppState {
   showSettings: boolean;
 }
 
-export type MuseumType = 'astc' | 'aza';
-
+export type MuseumType = "astc" | "aza";

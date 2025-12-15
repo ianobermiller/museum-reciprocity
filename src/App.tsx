@@ -9,29 +9,25 @@ import azaData from "@/data/aza-institutions.json";
 import "./index.css";
 
 export function App() {
-  const [filters, setFilters] = useState<SearchFilters>(getDefaultFilters());
+  const [filters, setFilters] = useState<SearchFilters>(() => {
+    // Load filters on initial mount
+    const savedFilters = loadFilters();
+    return savedFilters || getDefaultFilters();
+  });
   const [allMuseums] = useState<Museum[]>(() => {
     // Combine both datasets and add type property
-    const astc = (astcData as Museum[]).map(m => ({ ...m, type: 'astc' as const }));
-    const aza = (azaData as Museum[]).map(m => ({ ...m, type: 'aza' as const }));
+    const astc = (astcData as Museum[]).map((m) => ({ ...m, type: "astc" as const }));
+    const aza = (azaData as Museum[]).map((m) => ({ ...m, type: "aza" as const }));
     return [...astc, ...aza];
   });
-
-  // Load filters on mount
-  useEffect(() => {
-    const savedFilters = loadFilters();
-    if (savedFilters) {
-      setFilters(savedFilters);
-    }
-  }, []);
 
   // Save filters when they change
   useEffect(() => {
     saveFilters(filters);
   }, [filters]);
 
-  const astcCount = allMuseums.filter(m => m.type === 'astc').length;
-  const azaCount = allMuseums.filter(m => m.type === 'aza').length;
+  const astcCount = allMuseums.filter((m) => m.type === "astc").length;
+  const azaCount = allMuseums.filter((m) => m.type === "aza").length;
 
   return (
     <div className="min-h-screen bg-background">
@@ -55,11 +51,7 @@ export function App() {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-6">
-        <MuseumSearch
-          museums={allMuseums}
-          filters={filters}
-          onFiltersChange={setFilters}
-        />
+        <MuseumSearch museums={allMuseums} filters={filters} onFiltersChange={setFilters} />
       </main>
     </div>
   );

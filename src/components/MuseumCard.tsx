@@ -14,31 +14,33 @@ export function MuseumCard({ museum, showDistance }: MuseumCardProps) {
   };
 
   const handleDirections = () => {
-    const query = encodeURIComponent(`${museum.address}, ${museum.city}, ${museum.state} ${museum.zip}`);
-    window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
+    const query = encodeURIComponent(
+      `${museum.address}, ${museum.city}, ${museum.state} ${museum.zip}`
+    );
+    window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, "_blank");
   };
 
   const handleWebsite = () => {
-    window.open(museum.website, '_blank', 'noopener,noreferrer');
+    window.open(museum.website, "_blank", "noopener,noreferrer");
   };
 
   const getDiscountBadge = () => {
     switch (museum.discountType) {
-      case 'free':
+      case "free":
         return (
           <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full bg-green-100 dark:bg-green-950/50 text-green-800 dark:text-green-300">
             <Ticket className="h-3 w-3" />
             Free Admission
           </span>
         );
-      case '50-percent':
+      case "50-percent":
         return (
           <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300">
             <Ticket className="h-3 w-3" />
             50% Off
           </span>
         );
-      case 'distance-based':
+      case "distance-based":
         return (
           <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-300">
             <Ticket className="h-3 w-3" />
@@ -56,14 +58,18 @@ export function MuseumCard({ museum, showDistance }: MuseumCardProps) {
     const policy = museum.admittancePolicy.toLowerCase();
 
     // Check for redundant free admission policy
-    if (museum.discountType === 'free' &&
-        (policy.includes('free admission') || policy.includes('free entry'))) {
+    if (
+      museum.discountType === "free" &&
+      (policy.includes("free admission") || policy.includes("free entry"))
+    ) {
       return true;
     }
 
     // Check for redundant 50% off policy
-    if (museum.discountType === '50-percent' &&
-        (policy.includes('50%') || policy.includes('half') || policy.includes('half price'))) {
+    if (
+      museum.discountType === "50-percent" &&
+      (policy.includes("50%") || policy.includes("half") || policy.includes("half price"))
+    ) {
       return true;
     }
 
@@ -92,12 +98,14 @@ export function MuseumCard({ museum, showDistance }: MuseumCardProps) {
       <CardContent className="flex-1 flex flex-col gap-3">
         <div className="flex flex-wrap gap-2">
           {museum.type && (
-            <span className={`inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full ${
-              museum.type === 'astc'
-                ? 'bg-indigo-100 dark:bg-indigo-950/50 text-indigo-800 dark:text-indigo-300'
-                : 'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300'
-            }`}>
-              {museum.type === 'astc' ? 'ASTC' : 'AZA'}
+            <span
+              className={`inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full ${
+                museum.type === "astc"
+                  ? "bg-indigo-100 dark:bg-indigo-950/50 text-indigo-800 dark:text-indigo-300"
+                  : "bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300"
+              }`}
+            >
+              {museum.type === "astc" ? "ASTC" : "AZA"}
             </span>
           )}
           {getDiscountBadge()}
@@ -150,4 +158,3 @@ export function MuseumCard({ museum, showDistance }: MuseumCardProps) {
     </Card>
   );
 }
-

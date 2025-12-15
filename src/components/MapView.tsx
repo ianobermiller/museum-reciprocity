@@ -1,10 +1,10 @@
-import { useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import { Icon, LatLngBounds } from 'leaflet';
-import { MapPin, Phone, Navigation, ExternalLink, Ticket } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import type { Museum } from '@/types/museum';
-import 'leaflet/dist/leaflet.css';
+import { useEffect } from "react";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { Icon, LatLngBounds } from "leaflet";
+import { MapPin, Phone, Navigation, ExternalLink, Ticket } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import type { Museum } from "@/types/museum";
+import "leaflet/dist/leaflet.css";
 
 interface MapViewProps {
   museums: Museum[];
@@ -19,7 +19,7 @@ function FitBounds({ museums }: { museums: Museum[] }) {
     if (museums.length === 0) return;
 
     const bounds = new LatLngBounds(
-      museums.map(m => [m.latitude, m.longitude] as [number, number])
+      museums.map((m) => [m.latitude, m.longitude] as [number, number])
     );
 
     map.fitBounds(bounds, { padding: [50, 50], maxZoom: 12 });
@@ -29,8 +29,8 @@ function FitBounds({ museums }: { museums: Museum[] }) {
 }
 
 // Custom marker icon
-const createCustomIcon = (type: 'astc' | 'aza' | undefined) => {
-  const color = type === 'astc' ? '#4f46e5' : '#10b981'; // indigo for ASTC, emerald for AZA
+const createCustomIcon = (type: "astc" | "aza" | undefined) => {
+  const color = type === "astc" ? "#4f46e5" : "#10b981"; // indigo for ASTC, emerald for AZA
 
   return new Icon({
     iconUrl: `data:image/svg+xml;base64,${btoa(`
@@ -47,44 +47,45 @@ const createCustomIcon = (type: 'astc' | 'aza' | undefined) => {
 };
 
 export function MapView({ museums, showDistance }: MapViewProps) {
-  const mapRef = useRef<L.Map>(null);
-
   const handleCall = (phone: string) => {
+    // eslint-disable-next-line react-hooks/immutability
     window.location.href = `tel:${phone}`;
   };
 
   const handleDirections = (museum: Museum) => {
-    const query = encodeURIComponent(`${museum.address}, ${museum.city}, ${museum.state} ${museum.zip}`);
-    window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
+    const query = encodeURIComponent(
+      `${museum.address}, ${museum.city}, ${museum.state} ${museum.zip}`
+    );
+    window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, "_blank");
   };
 
   const handleWebsite = (website: string) => {
-    window.open(website, '_blank', 'noopener,noreferrer');
+    window.open(website, "_blank", "noopener,noreferrer");
   };
 
-  const getDiscountLabel = (type: Museum['discountType']) => {
+  const getDiscountLabel = (type: Museum["discountType"]) => {
     switch (type) {
-      case 'free':
-        return 'Free Admission';
-      case '50-percent':
-        return '50% Off';
-      case 'distance-based':
-        return 'Distance-Based';
+      case "free":
+        return "Free Admission";
+      case "50-percent":
+        return "50% Off";
+      case "distance-based":
+        return "Distance-Based";
       default:
         return null;
     }
   };
 
-  const getDiscountColor = (type: Museum['discountType']) => {
+  const getDiscountColor = (type: Museum["discountType"]) => {
     switch (type) {
-      case 'free':
-        return 'bg-green-100 dark:bg-green-950/50 text-green-800 dark:text-green-300';
-      case '50-percent':
-        return 'bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300';
-      case 'distance-based':
-        return 'bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-300';
+      case "free":
+        return "bg-green-100 dark:bg-green-950/50 text-green-800 dark:text-green-300";
+      case "50-percent":
+        return "bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300";
+      case "distance-based":
+        return "bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-300";
       default:
-        return '';
+        return "";
     }
   };
 
@@ -95,10 +96,9 @@ export function MapView({ museums, showDistance }: MapViewProps) {
   return (
     <div className="h-[calc(100vh-300px)] min-h-[500px] rounded-lg overflow-hidden border">
       <MapContainer
-        ref={mapRef}
         center={defaultCenter}
         zoom={defaultZoom}
-        style={{ height: '100%', width: '100%' }}
+        style={{ height: "100%", width: "100%" }}
         scrollWheelZoom={true}
       >
         <TileLayer
@@ -133,16 +133,20 @@ export function MapView({ museums, showDistance }: MapViewProps) {
 
                 <div className="flex flex-wrap gap-1 mb-2">
                   {museum.type && (
-                    <span className={`inline-flex items-center px-2 py-0.5 text-xs font-semibold rounded-full ${
-                      museum.type === 'astc'
-                        ? 'bg-indigo-100 dark:bg-indigo-950/50 text-indigo-800 dark:text-indigo-300'
-                        : 'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300'
-                    }`}>
-                      {museum.type === 'astc' ? 'ASTC' : 'AZA'}
+                    <span
+                      className={`inline-flex items-center px-2 py-0.5 text-xs font-semibold rounded-full ${
+                        museum.type === "astc"
+                          ? "bg-indigo-100 dark:bg-indigo-950/50 text-indigo-800 dark:text-indigo-300"
+                          : "bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300"
+                      }`}
+                    >
+                      {museum.type === "astc" ? "ASTC" : "AZA"}
                     </span>
                   )}
                   {getDiscountLabel(museum.discountType) && (
-                    <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-xs font-semibold rounded-full ${getDiscountColor(museum.discountType)}`}>
+                    <span
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 text-xs font-semibold rounded-full ${getDiscountColor(museum.discountType)}`}
+                    >
                       <Ticket className="h-3 w-3" />
                       {getDiscountLabel(museum.discountType)}
                     </span>
@@ -200,4 +204,3 @@ export function MapView({ museums, showDistance }: MapViewProps) {
     </div>
   );
 }
-

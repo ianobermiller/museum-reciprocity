@@ -1,0 +1,11 @@
+node_modules
+dist
+build
+.git
+bun.lock
+*.min.js
+*.min.css
+coverage
+public
+data
+

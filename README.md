@@ -5,18 +5,21 @@ A mobile-friendly web application for finding ASTC science centers and AZA zoos/
 ## Features
 
 ### 🎫 Reciprocal Admission Tracking
+
 - Search through 50+ ASTC science centers and museums
 - Browse AZA zoos and aquariums
 - See admission policies (free admission vs 50% discount)
 - Identify museums requiring proof of residence
 
 ### 📍 Location-Based Filtering
+
 - Set your home museum membership
 - Automatic 90-mile exclusion zone calculation (as per ASTC rules)
 - Distance display to each museum
 - Google Maps integration for directions
 
 ### 🔍 Advanced Search & Filters
+
 - Text search by museum name, city, or state
 - Filter by state/country
 - Show only free admission or 50% discount venues
@@ -24,6 +27,7 @@ A mobile-friendly web application for finding ASTC science centers and AZA zoos/
 - Sort by name, distance, or location
 
 ### 📱 Mobile-First Design
+
 - Responsive layout (1 column mobile, 2-3 columns desktop)
 - Touch-friendly interface
 - PWA manifest for "Add to Home Screen"
@@ -32,6 +36,7 @@ A mobile-friendly web application for finding ASTC science centers and AZA zoos/
 - One-tap directions
 
 ### 💾 Persistent Settings
+
 - localStorage for membership information
 - Saved search preferences
 - No account required
@@ -48,6 +53,7 @@ A mobile-friendly web application for finding ASTC science centers and AZA zoos/
 ## Getting Started
 
 ### Prerequisites
+
 - [Bun](https://bun.sh/) installed on your system
 
 ### Installation
@@ -116,6 +122,7 @@ To update the museum data:
 ### 90-Mile Exclusion Zone
 
 Per ASTC rules, members cannot use reciprocal admission at museums:
+
 1. Within 90 miles of their home museum
 2. Within 90 miles of their residence
 
@@ -135,6 +142,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 ### Admittance Policy Parsing
 
 The app intelligently parses admission policies to extract:
+
 - Number of adults allowed
 - Number of children allowed
 - Special restrictions
@@ -149,6 +157,7 @@ The app intelligently parses admission policies to extract:
 ## Contributing
 
 When adding new museums:
+
 1. Ensure accurate latitude/longitude coordinates
 2. Clearly note any special restrictions
 3. Include complete contact information
