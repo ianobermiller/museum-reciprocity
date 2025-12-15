@@ -17,7 +17,7 @@ export interface GeocodingResult {
  */
 export async function geocodeCity(cityName: string): Promise<GeocodingResult | null> {
   const results = await geocodeCityMultiple(cityName, 1);
-  return results.length > 0 ? results[0] ?? null : null;
+  return results.length > 0 ? (results[0] ?? null) : null;
 }
 
 interface NominatimResult {
