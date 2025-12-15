@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { Compass } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { MuseumSearch } from "@/components/MuseumSearch";
 import { loadFilters, saveFilters, getDefaultFilters } from "@/lib/storage";
 import type { Museum, SearchFilters } from "@/types/museum";
 import astcData from "@/data/astc-museums.json";
 import azaData from "@/data/aza-institutions.json";
+import logoSvg from "./favicon.svg";
 import "./index.css";
 
 export function App() {
@@ -36,7 +36,7 @@ export function App() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Compass className="h-6 w-6 text-primary" />
+              <img src={logoSvg} alt="Museum" className="h-6 w-6" />
               <div>
                 <h1 className="text-xl font-bold">Museum Finder</h1>
                 <p className="text-xs text-muted-foreground">
