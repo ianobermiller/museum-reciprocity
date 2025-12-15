@@ -147,30 +147,46 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
   return (
     <div className="space-y-3">
       <div className="space-y-2">
-        <div className="relative">
-          <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
-          <Input
-            type="text"
-            placeholder="Search for a city (e.g., Los Angeles, Seattle)"
-            value={cityInput}
-            onChange={(e) => handleCityInputChange(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="pl-10 pr-10"
-          />
-          {isGeocoding ? (
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-              <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
+        <div className="flex gap-2">
+          <div className="relative flex-1">
+            <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
+            <Input
+              type="text"
+              placeholder="Search for a city (e.g., Los Angeles, Seattle)"
+              value={cityInput}
+              onChange={(e) => handleCityInputChange(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className="pl-10 pr-10"
+            />
+            {isGeocoding ? (
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full" />
+              </div>
+            ) : cityInput ? (
+              <button
+                onClick={handleClearInput}
+                className="absolute right-0 top-0 h-full px-3 text-muted-foreground hover:text-foreground transition-colors"
+                title="Clear search"
+                type="button"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            ) : null}
+          </div>
+          {filters.citySearchLocation && (
+            <div className="w-24">
+              <Select value={String(filters.citySearchRadius)} onValueChange={handleRadiusChange}>
+                <SelectTrigger className="h-10">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="10">&lt; 10 mi</SelectItem>
+                  <SelectItem value="50">&lt; 50 mi</SelectItem>
+                  <SelectItem value="100">&lt; 100 mi</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
-          ) : cityInput ? (
-            <button
-              onClick={handleClearInput}
-              className="absolute right-0 top-0 h-full px-3 text-muted-foreground hover:text-foreground transition-colors"
-              title="Clear search"
-              type="button"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          ) : null}
+          )}
         </div>
         {geocodingError && <p className="text-sm text-destructive">{geocodingError}</p>}
         {cityMatches.length > 0 && (
@@ -197,20 +213,6 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
           </Command>
         )}
       </div>
-      {filters.citySearchLocation && (
-        <div className="max-w-xs">
-          <Select value={String(filters.citySearchRadius)} onValueChange={handleRadiusChange}>
-            <SelectTrigger className="h-9">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="10">Within 10 miles</SelectItem>
-              <SelectItem value="50">Within 50 miles</SelectItem>
-              <SelectItem value="100">Within 100 miles</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      )}
     </div>
   );
 }
