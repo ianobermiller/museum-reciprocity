@@ -10,36 +10,25 @@ interface MuseumCardProps {
 export function MuseumCard({ museum, showDistance }: MuseumCardProps) {
   const [showNotes, setShowNotes] = useState(false);
 
-  const handleDirections = () => {
-    const query = encodeURIComponent(
-      `${museum.address}, ${museum.city}, ${museum.state} ${museum.zip}`
-    );
-    window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, "_blank");
-  };
-
-  const handleWebsite = () => {
-    window.open(museum.website, "_blank", "noopener,noreferrer");
-  };
-
   const getDiscountBadge = () => {
     switch (museum.discountType) {
       case "free":
         return (
-          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-semibold rounded-full bg-green-100 dark:bg-green-950/50 text-green-800 dark:text-green-300">
+          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-semibold rounded-full bg-green-100 dark:bg-green-950/50 text-green-800 dark:text-green-300">
             <Ticket className="h-3 w-3" />
             Free
           </span>
         );
       case "50-percent":
         return (
-          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-semibold rounded-full bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300">
+          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-semibold rounded-full bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300">
             <Ticket className="h-3 w-3" />
             50% Off
           </span>
         );
       case "distance-based":
         return (
-          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-semibold rounded-full bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-300">
+          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-semibold rounded-full bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-300">
             <Ticket className="h-3 w-3" />
             Distance-Based
           </span>
@@ -74,74 +63,75 @@ export function MuseumCard({ museum, showDistance }: MuseumCardProps) {
   const hasSpecialNotes = museum.specialNotes;
 
   return (
-    <div className="bg-card text-card-foreground rounded-lg border p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-3">
+    <div className="bg-card text-card-foreground rounded-lg border p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-4">
       {/* Header */}
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex-1 min-w-0">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex-1 min-w-0 space-y-2">
           <a
             href={museum.website}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={(e) => {
-              e.preventDefault();
-              handleWebsite();
-            }}
-            className="font-semibold text-base leading-tight mb-1 hover:underline cursor-pointer block"
+            className="font-semibold text-lg leading-snug hover:underline cursor-pointer block"
           >
             {museum.name}
           </a>
-          <button
-            onClick={handleDirections}
-            className="flex items-start gap-1 text-muted-foreground text-xs hover:text-foreground hover:underline transition-colors cursor-pointer"
-          >
-            <MapPin className="h-3 w-3 mt-0.5 shrink-0" />
-            <span>
-              {museum.city}, {museum.state || museum.country}
-            </span>
-          </button>
+          <div className="flex items-center justify-between gap-3">
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                `${museum.address}, ${museum.city}, ${museum.state} ${museum.zip}`
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-1.5 text-muted-foreground text-sm hover:text-foreground hover:underline transition-colors cursor-pointer"
+            >
+              <MapPin className="h-3.5 w-3.5 mt-0.5 shrink-0" />
+              <span className="leading-snug">
+                {museum.city}, {museum.state || museum.country}
+              </span>
+            </a>
+            {/* Badges */}
+            <div className="flex flex-wrap gap-2 justify-end">
+              {museum.type && (
+                <span
+                  className={`inline-flex items-center px-2 py-0.5 text-xs font-semibold rounded-full ${
+                    museum.type === "astc"
+                      ? "bg-indigo-100 dark:bg-indigo-950/50 text-indigo-800 dark:text-indigo-300"
+                      : "bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300"
+                  }`}
+                >
+                  {museum.type === "astc" ? "ASTC" : "AZA"}
+                </span>
+              )}
+              {getDiscountBadge()}
+            </div>
+          </div>
         </div>
         {showDistance && museum.distance !== undefined && (
-          <span className="text-xs font-semibold px-2 py-1 rounded-full bg-muted whitespace-nowrap">
+          <span className="text-xs font-semibold px-2 py-1 rounded-full bg-muted whitespace-nowrap shrink-0">
             {museum.distance} mi
           </span>
         )}
       </div>
 
-      {/* Badges */}
-      <div className="flex flex-wrap gap-1.5">
-        {museum.type && (
-          <span
-            className={`inline-flex items-center px-1.5 py-0.5 text-xs font-semibold rounded-full ${
-              museum.type === "astc"
-                ? "bg-indigo-100 dark:bg-indigo-950/50 text-indigo-800 dark:text-indigo-300"
-                : "bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300"
-            }`}
-          >
-            {museum.type === "astc" ? "ASTC" : "AZA"}
-          </span>
-        )}
-        {getDiscountBadge()}
-      </div>
-
       {/* Admittance Policy */}
       {museum.admittancePolicy && !isAdmittancePolicyRedundant() && (
-        <p className="text-xs leading-relaxed">{museum.admittancePolicy}</p>
+        <p className="text-sm leading-relaxed text-foreground/90">{museum.admittancePolicy}</p>
       )}
 
       {/* Special Notes - Collapsible */}
       {hasSpecialNotes && (
-        <div>
+        <div className="space-y-2">
           <button
             onClick={() => setShowNotes(!showNotes)}
-            className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             <ChevronDown
-              className={`h-3 w-3 transition-transform ${showNotes ? "rotate-180" : ""}`}
+              className={`h-3.5 w-3.5 transition-transform ${showNotes ? "rotate-180" : ""}`}
             />
             <span className="font-medium">{showNotes ? "Hide notes" : "Show special notes"}</span>
           </button>
           {showNotes && (
-            <p className="text-xs leading-relaxed text-muted-foreground mt-2 pl-4">
+            <p className="text-sm leading-relaxed text-muted-foreground pl-5">
               {museum.specialNotes}
             </p>
           )}
