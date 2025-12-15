@@ -12,7 +12,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "ts": "tsc --noEmit",
-    "knip": "knip"
+    "knip": "knip",
+    "upload": "bun run ts && bun run lint &&bun run build && rsync -avz dist/* iano@obermillers.com:~/public_html/obermillers/museums"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
